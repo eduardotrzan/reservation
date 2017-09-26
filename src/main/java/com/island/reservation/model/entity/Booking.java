@@ -1,13 +1,20 @@
 package com.island.reservation.model.entity;
 
+import com.island.reservation.model.database.postgres.PostgreSQLEnumType;
 import com.island.reservation.model.entity.enums.BookingStatus;
-import org.springframework.context.annotation.Profile;
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
 
 import javax.persistence.*;
 import java.util.Calendar;
+import java.util.UUID;
 
 @Entity
 @Table(name = "\"booking\"")
+@TypeDef(
+		name = "pgsql_enum",
+		typeClass = PostgreSQLEnumType.class
+)
 public class Booking extends GenericEntity<Integer> {
 
 	@Override
@@ -19,7 +26,7 @@ public class Booking extends GenericEntity<Integer> {
 		return super.getId();
 	}
 
-	private String uuid;
+	private String uuid = UUID.randomUUID().toString();
 
 	private Calendar startDate;
 
@@ -34,6 +41,29 @@ public class Booking extends GenericEntity<Integer> {
 	@Column(name = "uuid", nullable = false, length = 200)
 	public String getUuid() {
 		return uuid;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "create_date", nullable = true, columnDefinition = "DEFAULT CURRENT_TIMESTAMP")
+	public Calendar getCreateDate() {
+		return super.getCreateDate();
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "update_date")
+	public Calendar getUpdateDate() {
+		return super.getUpdateDate();
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "delete_date")
+	public Calendar getDeleteDate() {
+		return super.getDeleteDate();
+	}
+
+	@Column(name = "is_deleted")
+	public boolean isDeleted() {
+		return super.isDeleted();
 	}
 
 	public void setUuid(String uuid) {
@@ -62,6 +92,7 @@ public class Booking extends GenericEntity<Integer> {
 
 	@Enumerated(EnumType.STRING)
 	@Column(name = "status", nullable = false, length = 255, columnDefinition = "DEFAULT 'PENDING'")
+	@Type( type = "pgsql_enum" )
 	public BookingStatus getStatus() {
 		return status;
 	}

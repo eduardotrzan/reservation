@@ -1,12 +1,20 @@
 package com.island.reservation.model.entity;
 
+import com.island.reservation.model.database.postgres.PostgreSQLEnumType;
 import com.island.reservation.model.entity.enums.RoomStatus;
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
 
 import javax.persistence.*;
+import java.util.Calendar;
 import java.util.Set;
 
 @Entity
 @Table(name = "\"room\"")
+@TypeDef(
+		name = "pgsql_enum",
+		typeClass = PostgreSQLEnumType.class
+)
 public class Room extends GenericEntity<Integer> {
 
 	private String title;
@@ -24,6 +32,29 @@ public class Room extends GenericEntity<Integer> {
 		return super.getId();
 	}
 
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "create_date", nullable = true, columnDefinition = "DEFAULT CURRENT_TIMESTAMP")
+	public Calendar getCreateDate() {
+		return super.getCreateDate();
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "update_date")
+	public Calendar getUpdateDate() {
+		return super.getUpdateDate();
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "delete_date")
+	public Calendar getDeleteDate() {
+		return super.getDeleteDate();
+	}
+
+	@Column(name = "is_deleted")
+	public boolean isDeleted() {
+		return super.isDeleted();
+	}
+
 	@Column(name = "title", nullable = false, length = 200)
 	public String getTitle() {
 		return title;
@@ -35,6 +66,7 @@ public class Room extends GenericEntity<Integer> {
 
 	@Enumerated(EnumType.STRING)
 	@Column(name = "status", nullable = false, length = 255, columnDefinition = "DEFAULT 'AVAILABLE'")
+	@Type( type = "pgsql_enum" )
 	public RoomStatus getStatus() {
 		return status;
 	}

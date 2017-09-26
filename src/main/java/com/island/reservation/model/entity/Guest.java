@@ -1,6 +1,7 @@
 package com.island.reservation.model.entity;
 
 import javax.persistence.*;
+import java.util.Calendar;
 import java.util.Set;
 
 @Entity
@@ -22,6 +23,29 @@ public class Guest extends GenericEntity<Integer> {
 	@Column(name = "id")
 	public Integer getId() {
 		return super.getId();
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "create_date", nullable = true, columnDefinition = "DEFAULT CURRENT_TIMESTAMP")
+	public Calendar getCreateDate() {
+		return super.getCreateDate();
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "update_date")
+	public Calendar getUpdateDate() {
+		return super.getUpdateDate();
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "delete_date")
+	public Calendar getDeleteDate() {
+		return super.getDeleteDate();
+	}
+
+	@Column(name = "is_deleted")
+	public boolean isDeleted() {
+		return super.isDeleted();
 	}
 
 	@Column(name = "first_name", nullable = false, length = 200)

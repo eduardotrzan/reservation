@@ -114,3 +114,7 @@ END;
 CREATE INDEX "booking_idx01"
   ON "reservation"."public"."booking" ("start_date", "end_date");
 END;
+
+CREATE UNIQUE INDEX "booking_idx02"
+  ON "reservation"."public"."booking" ("uuid")
+;

@@ -6,7 +6,7 @@ import java.util.Calendar;
 public abstract class GenericEntity<ID> implements Serializable {
 
 	private ID id;
-	private Calendar createDate;
+	private Calendar createDate = Calendar.getInstance();
 	private Calendar updateDate;
 	private Calendar deleteDate;
 	private boolean isDeleted;
