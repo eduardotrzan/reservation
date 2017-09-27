@@ -2,10 +2,14 @@ package com.island.reservation.controller.ws;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonRootName;
 
 import java.util.Date;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
+@JsonRootName(value = "room")
+@JsonPropertyOrder({"title", "status", "createDate", "updateDate"})
 public class RoomWs {
 
 	private String title;

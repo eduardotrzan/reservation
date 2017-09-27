@@ -44,7 +44,7 @@ public final class WsBuilder {
 	private BookingWs getCompleteBooking(Booking booking) {
 		BookingWs bookingWs = this.bookingWsBuilder.toWs(booking);
 		bookingWs.setGuest(this.guestWsBuilder.toWs(booking.getGuest()));
-		bookingWs.setRoomWs(this.roomWsBuilder.toWs(booking.getRoom()));
+		bookingWs.setRoom(this.roomWsBuilder.toWs(booking.getRoom()));
 		return bookingWs;
 	}
 }

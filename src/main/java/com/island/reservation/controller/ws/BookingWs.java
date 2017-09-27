@@ -1,12 +1,12 @@
 package com.island.reservation.controller.ws;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.*;
 
 import java.util.Date;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
+@JsonRootName(value = "booking")
+@JsonPropertyOrder({"uuid", "status", "startDate", "endDate", "createDate", "updateDate"})
 public class BookingWs {
 
 	@JsonProperty("bookingIdentifier")
@@ -28,7 +28,7 @@ public class BookingWs {
 
 	private GuestWs guest;
 
-	private RoomWs roomWs;
+	private RoomWs room;
 
 	public String getUuid() {
 		return uuid;
@@ -86,11 +86,11 @@ public class BookingWs {
 		this.guest = guest;
 	}
 
-	public RoomWs getRoomWs() {
-		return roomWs;
+	public RoomWs getRoom() {
+		return room;
 	}
 
-	public void setRoomWs(RoomWs roomWs) {
-		this.roomWs = roomWs;
+	public void setRoom(RoomWs room) {
+		this.room = room;
 	}
 }
