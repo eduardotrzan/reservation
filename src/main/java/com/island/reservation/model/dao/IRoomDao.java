@@ -8,4 +8,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 @RepositoryDefinition(domainClass = Room.class, idClass = Integer.class)
 public interface IRoomDao extends CrudRepository<Room, Integer> {
+	public Room findByTitle(String title);
 }

@@ -15,6 +15,6 @@
         />
     </changeSet>
 
-    <!--<include file="classpath:liquibase/changelog/liquibase.changelog.002.xml" />-->
+    <include file="classpath:liquibase/changelog/db.changelog.002.xml" />
 
 </databaseChangeLog>

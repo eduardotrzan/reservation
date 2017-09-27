@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet author="Campsite" id="002">
+        <preConditions onFail="WARN">
+            <sqlCheck expectedResult="0">SELECT count(*) FROM room WHERE title = 'Campsite'</sqlCheck>
+        </preConditions>
+
+        <insert catalogName="reservation"
+                dbms="h2, postgresql"
+                schemaName="public"
+                tableName="room"
+        >
+
+            <column name="title" type="varchar(255)" value="Campsite"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>

@@ -45,7 +45,7 @@ CREATE SEQUENCE "reservation"."public"."room_id_seq"
   CACHE 1;
 END;
 
-CREATE TYPE ROOM_STATUS AS ENUM ('CLEANING', 'RESERVED', 'AVAILABLE');
+CREATE TYPE ROOM_STATUS AS ENUM ('UNAVAILABLE', 'AVAILABLE');
 END;
 
 CREATE TABLE "reservation"."public"."room" (
