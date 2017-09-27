@@ -25,7 +25,8 @@
 
         <spring.version>5.0.0.RC4</spring.version>
         <liquibase.version>3.5.3</liquibase.version>
-        <!--<jackson.version>2.6.4</jackson.version>-->
+        <jackson.version>2.9.1</jackson.version>
+        <postegres.version>42.1.4</postegres.version>
     </properties>
 
     <dependencies>
@@ -54,7 +55,7 @@
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <version>42.1.4</version>
+            <version>${postgresql.version}</version>
         </dependency>
 
         <dependency>
@@ -62,6 +63,18 @@
             <artifactId>liquibase-core</artifactId>
             <scope>runtime</scope>
             <version>${liquibase.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>${jackson.version}</version>
         </dependency>
     </dependencies>
 

@@ -3,8 +3,11 @@ package com.island.reservation.model.service;
 import com.island.reservation.model.dao.IBookingDao;
 import com.island.reservation.model.dao.IGuestDao;
 import com.island.reservation.model.dao.IRoomDao;
+import com.island.reservation.model.entity.Booking;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class BookingService {
@@ -40,5 +43,9 @@ public class BookingService {
 
 	public void setRoomDao(IRoomDao roomDao) {
 		this.roomDao = roomDao;
+	}
+
+	public List<Booking> findAll() {
+		return (List<Booking>) this.getBookingDao().findAll();
 	}
 }

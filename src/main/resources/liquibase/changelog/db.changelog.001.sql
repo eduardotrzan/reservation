@@ -79,7 +79,7 @@ CREATE SEQUENCE "reservation"."public"."booking_id_seq"
   CACHE 1;
 END;
 
-CREATE TYPE BOOKING_STATUS AS ENUM ('PENDING', 'ACTIVE', 'CONFIRMED');
+CREATE TYPE BOOKING_STATUS AS ENUM ('PENDING', 'ACTIVE', 'CONFIRMED', 'CANCELLED');
 END;
 
 CREATE TABLE "reservation"."public"."booking" (
