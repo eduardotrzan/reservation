@@ -11,26 +11,14 @@ import java.util.stream.Collectors;
 @Component
 public final class WsBuilder {
 
+	@Autowired
 	private GuestWsBuilder guestWsBuilder;
 
+	@Autowired
 	private RoomWsBuilder roomWsBuilder;
 
+	@Autowired
 	private BookingWsBuilder bookingWsBuilder;
-
-	@Autowired
-	public void setGuestWsBuilder(GuestWsBuilder guestWsBuilder) {
-		this.guestWsBuilder = guestWsBuilder;
-	}
-
-	@Autowired
-	public void setRoomWsBuilder(RoomWsBuilder roomWsBuilder) {
-		this.roomWsBuilder = roomWsBuilder;
-	}
-
-	@Autowired
-	public void setBookingWsBuilder(BookingWsBuilder bookingWsBuilder) {
-		this.bookingWsBuilder = bookingWsBuilder;
-	}
 
 	public List<BookingWs> getCompleteBookings(List<Booking> bookings) {
 		List<BookingWs> completeBookingWss = bookings
@@ -46,5 +34,9 @@ public final class WsBuilder {
 		bookingWs.setGuest(this.guestWsBuilder.toWs(booking.getGuest()));
 		bookingWs.setRoom(this.roomWsBuilder.toWs(booking.getRoom()));
 		return bookingWs;
+	}
+
+	public BookingWs toBookingWs(Booking booking) {
+		return this.bookingWsBuilder.toWs(booking);
 	}
 }

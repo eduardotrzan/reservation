@@ -3,7 +3,7 @@ package com.island.reservation.exceptions;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 
-public abstract class Error {
+public class Error extends Exception {
 
 	private ErrorCode errorCode;
 
@@ -11,7 +11,7 @@ public abstract class Error {
 
 	private String description;
 
-	private Error errorDetails;
+	private String details;
 
 	private Exception exception;
 
@@ -19,7 +19,7 @@ public abstract class Error {
 			@NotNull ErrorCode errorCode,
 			@NotNull String title,
 			@NotNull String description,
-			@Null Error details) {
+			@Null String details) {
 		this(errorCode, title, description, details, null);
 	}
 
@@ -27,13 +27,13 @@ public abstract class Error {
 			@NotNull ErrorCode errorCode,
 			@NotNull String title,
 			@NotNull String description,
-			@Null Error errorDetails,
+			@Null String details,
 			@Null Exception exception
 	) {
 		this.errorCode = errorCode;
 		this.title = title;
 		this.description = description;
-		this.errorDetails = errorDetails;
+		this.details = details == null ? "" : details;
 		this.exception = exception;
 	}
 
@@ -49,9 +49,15 @@ public abstract class Error {
 		return description;
 	}
 
-	public Error getErrorDetails() {
-		return errorDetails;
+	@Override
+	public String getMessage() {
+		return this.title + "\n\n" + this.getDescription();
 	}
 
-	public abstract String getDetails();
+	public String getDetails() {
+		if (this.exception != null) {
+			return this.details + "\n\n" + this.exception.getMessage();
+		}
+		return this.details;
+	}
 }

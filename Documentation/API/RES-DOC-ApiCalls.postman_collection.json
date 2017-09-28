@@ -1,0 +1,104 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Reservation",
+		"_postman_id": "2bd2beda-2785-3941-4ab7-045f9bc039b2",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "All Reservations",
+			"request": {
+				"url": "{{hostname}}/reservations",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Reservation Availability With Start and End Date",
+			"request": {
+				"url": {
+					"raw": "{{hostname}}/availability?startDate=2017-09-27&endDate=2017-09-27",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"availability"
+					],
+					"query": [
+						{
+							"key": "startDate",
+							"value": "2017-09-27",
+							"equals": true,
+							"description": ""
+						},
+						{
+							"key": "endDate",
+							"value": "2017-09-27",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Reservation Availability With Start Date only",
+			"request": {
+				"url": {
+					"raw": "{{hostname}}/availability?startDate=2017-08-28",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"availability"
+					],
+					"query": [
+						{
+							"key": "startDate",
+							"value": "2017-08-28",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Reserve Room",
+			"request": {
+				"url": "{{hostname}}/reservation",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"firstName\": \"Eduardo\",\n\t\"lastName\": \"Trzan API 1\",\n\t\"email\": \"eduardo@something.com\",\n\t\"startDate\": \"2017-10-10\",\n\t\"endDate\": \"2017-10-17\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}

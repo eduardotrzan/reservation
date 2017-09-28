@@ -15,6 +15,12 @@ import java.util.UUID;
 		name = "pgsql_enum",
 		typeClass = PostgreSQLEnumType.class
 )
+@NamedQuery(
+		name = "Booking.findAvailability",
+		query = "SELECT b FROM Booking b " +
+					"WHERE (?1 BETWEEN b.startDate AND b.endDate) " +
+					"OR (?2 BETWEEN b.startDate AND b.endDate) "
+)
 public class Booking extends GenericEntity<Integer> {
 
 	@Override

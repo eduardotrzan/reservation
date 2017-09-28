@@ -8,10 +8,11 @@ public final class ConversionUtils {
 	private ConversionUtils() { }
 
 	public static Calendar parseToCalendar(Date date) {
-		Calendar calendar = Calendar.getInstance();
-		if (date != null) {
-			calendar.setTime(date);
+		if (date == null) {
+			return null;
 		}
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
 		return calendar;
 	}
 
