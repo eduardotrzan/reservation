@@ -102,6 +102,34 @@ public class BookingService implements IBookingService {
 		return saveBooking;
 	}
 
+	@Transactional
+	public Booking cancel(String uuid) throws Error {
+		if (uuid == null || uuid.trim().isEmpty()) {
+			throw new Error(
+					ErrorCode.INVALID_PARAMETER
+					, "Cancellation Error"
+					, "The booking Identifier needs to be informed."
+					, null
+			);
+		}
+
+		Booking booking = this.bookingDao.findByUuid(uuid);
+		if (booking == null) {
+			throw new Error(
+					ErrorCode.ENTITY_NOT_FOUND
+					, "Cancellation Error"
+					, "Booking with Reference " + uuid + " was not found in the system."
+					, null
+			);
+		}
+
+		booking.setStatus(BookingStatus.CANCELLED);
+		booking.setUpdateDate(Calendar.getInstance());
+		booking = this.bookingDao.save(booking);
+
+		return booking;
+	}
+
 	private void validateBooking(Booking booking) throws Error {
 		if (booking == null) {
 			throw new Error(

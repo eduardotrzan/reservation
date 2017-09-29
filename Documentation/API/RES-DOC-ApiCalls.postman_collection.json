@@ -8,97 +8,218 @@
 	},
 	"item": [
 		{
-			"name": "All Reservations",
-			"request": {
-				"url": "{{hostname}}/reservations",
-				"method": "GET",
-				"header": [],
-				"body": {},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "Reservation Availability With Start and End Date",
-			"request": {
-				"url": {
-					"raw": "{{hostname}}/availability?startDate=2017-09-27&endDate=2017-09-27",
-					"host": [
-						"{{hostname}}"
-					],
-					"path": [
-						"availability"
-					],
-					"query": [
+			"name": "Valid",
+			"description": "",
+			"item": [
+				{
+					"name": "Reservation",
+					"description": "",
+					"item": [
 						{
-							"key": "startDate",
-							"value": "2017-09-27",
-							"equals": true,
-							"description": ""
+							"name": "Find",
+							"description": "",
+							"item": [
+								{
+									"name": "All Reservations",
+									"request": {
+										"url": "{{hostname}}/reservations",
+										"method": "GET",
+										"header": [],
+										"body": {},
+										"description": ""
+									},
+									"response": []
+								},
+								{
+									"name": "Reservation Availability With Start and End Date",
+									"request": {
+										"url": {
+											"raw": "{{hostname}}/availability?startDate=2017-09-27&endDate=2017-09-27",
+											"host": [
+												"{{hostname}}"
+											],
+											"path": [
+												"availability"
+											],
+											"query": [
+												{
+													"key": "startDate",
+													"value": "2017-09-27",
+													"equals": true,
+													"description": ""
+												},
+												{
+													"key": "endDate",
+													"value": "2017-09-27",
+													"equals": true,
+													"description": ""
+												}
+											],
+											"variable": []
+										},
+										"method": "GET",
+										"header": [],
+										"body": {},
+										"description": ""
+									},
+									"response": []
+								},
+								{
+									"name": "Reservation Availability With Start Date only",
+									"request": {
+										"url": {
+											"raw": "{{hostname}}/availability?startDate=2017-08-28",
+											"host": [
+												"{{hostname}}"
+											],
+											"path": [
+												"availability"
+											],
+											"query": [
+												{
+													"key": "startDate",
+													"value": "2017-08-28",
+													"equals": true,
+													"description": ""
+												}
+											],
+											"variable": []
+										},
+										"method": "GET",
+										"header": [],
+										"body": {},
+										"description": ""
+									},
+									"response": []
+								}
+							],
+							"_postman_isSubFolder": true
 						},
 						{
-							"key": "endDate",
-							"value": "2017-09-27",
-							"equals": true,
-							"description": ""
-						}
-					],
-					"variable": []
-				},
-				"method": "GET",
-				"header": [],
-				"body": {},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "Reservation Availability With Start Date only",
-			"request": {
-				"url": {
-					"raw": "{{hostname}}/availability?startDate=2017-08-28",
-					"host": [
-						"{{hostname}}"
-					],
-					"path": [
-						"availability"
-					],
-					"query": [
+							"name": "Create",
+							"description": "",
+							"item": [
+								{
+									"name": "Reserve Room",
+									"request": {
+										"url": "{{hostname}}/reservation",
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"description": ""
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\t\"firstName\": \"Eduardo\",\n\t\"lastName\": \"Trzan API 1\",\n\t\"email\": \"eduardo@something.com\",\n\t\"startDate\": \"2017-10-01\",\n\t\"endDate\": \"2017-10-02\"\n}"
+										},
+										"description": ""
+									},
+									"response": []
+								}
+							],
+							"_postman_isSubFolder": true
+						},
 						{
-							"key": "startDate",
-							"value": "2017-08-28",
-							"equals": true,
-							"description": ""
+							"name": "Change",
+							"description": "",
+							"item": [
+								{
+									"name": "Reserve Room copy",
+									"request": {
+										"url": "{{hostname}}/reservation",
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"description": ""
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"bookingIdentifier\": \"392f1971-a300-4e29-8cf3-60a9e66fc0f1\",\n    \"startDate\": \"2017-10-02 00:00 AM UTC\",\n    \"endDate\": \"2017-10-04 00:00 AM UTC\"\n}"
+										},
+										"description": ""
+									},
+									"response": []
+								}
+							],
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "Delete",
+							"description": "",
+							"item": [
+								{
+									"name": "Cancel Reservation",
+									"request": {
+										"url": "{{hostname}}/reservation/392f1971-a300-4e29-8cf3-60a9e66fc0f1",
+										"method": "DELETE",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"description": ""
+									},
+									"response": []
+								}
+							],
+							"_postman_isSubFolder": true
 						}
 					],
-					"variable": []
-				},
-				"method": "GET",
-				"header": [],
-				"body": {},
-				"description": ""
-			},
-			"response": []
+					"_postman_isSubFolder": true
+				}
+			]
 		},
 		{
-			"name": "Reserve Room",
-			"request": {
-				"url": "{{hostname}}/reservation",
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json",
+			"name": "Invalid",
+			"description": "",
+			"item": [
+				{
+					"name": "Reserve Room - Constraint Error - Null EndDate",
+					"request": {
+						"url": "{{hostname}}/reservation",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"firstName\": \"Eduardo\",\n\t\"lastName\": \"Trzan API 1\",\n\t\"email\": \"eduardo@something.com\",\n\t\"startDate\": \"2017-10-10\",\n\t\"endDate\": null\n}"
+						},
 						"description": ""
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"firstName\": \"Eduardo\",\n\t\"lastName\": \"Trzan API 1\",\n\t\"email\": \"eduardo@something.com\",\n\t\"startDate\": \"2017-10-10\",\n\t\"endDate\": \"2017-10-17\"\n}"
+					},
+					"response": []
 				},
-				"description": ""
-			},
-			"response": []
+				{
+					"name": "Reserve Room - Constraint Error - Bad Email",
+					"request": {
+						"url": "{{hostname}}/reservation",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"firstName\": \"Eduardo\",\n\t\"lastName\": \"Trzan API 1\",\n\t\"email\": \"@something.com\",\n\t\"startDate\": \"2017-10-10\",\n\t\"endDate\": \"2017-10-10\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
 		}
 	]
 }

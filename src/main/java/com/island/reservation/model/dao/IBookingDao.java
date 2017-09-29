@@ -12,4 +12,5 @@ import java.util.Calendar;
 public interface IBookingDao extends CrudRepository<Booking, Integer> {
 
 	Booking findAvailability(Calendar startDate, Calendar endDate);
+	Booking findByUuid(String uuid);
 }

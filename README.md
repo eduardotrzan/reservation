@@ -27,3 +27,4 @@ Run in terminal: `createdb -h localhost -p 5432 -U root reservation`
 ## Technical Tips/Points
 - Remember to add quotes on entity names, as keywords might lead to errors while running automatic queries. Ex.: User entity.
 - Using UUID.randomUUID().toString() for the Booking ref, according to what I've found, version 4 of UUID, the risk of collision is 1 in 103 trillion.
+- Check the folder Documentation/API to find some sample API Calls.

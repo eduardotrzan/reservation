@@ -113,6 +113,18 @@ public class ReservationApiController {
 		}
 	}
 
+	@RequestMapping(value = "/reservation/{uuid}", method = RequestMethod.DELETE)
+	@ResponseBody
+	public ResponseEntity cancel(@PathVariable(value="uuid") String uuid) {
+		try {
+			Booking cancelledReservation = this.bookingService.cancel(uuid);
+			BookingWs bookingWs = this.wsBuilder.getCompleteBooking(cancelledReservation);
+			return ResponseEntity.status(HttpStatus.OK).body(bookingWs);
+		} catch (Exception exception) {
+			return this.getErrorResponse(exception);
+		}
+	}
+
 	private ResponseEntity getErrorResponse(Exception exception) {
 		HttpStatus httpStatus;
 		ErrorWs errorWs;
