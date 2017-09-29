@@ -127,7 +127,7 @@
 							"description": "",
 							"item": [
 								{
-									"name": "Reserve Room copy",
+									"name": "Modify Reserve",
 									"request": {
 										"url": "{{hostname}}/reservation",
 										"method": "PUT",
@@ -140,7 +140,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n    \"bookingIdentifier\": \"392f1971-a300-4e29-8cf3-60a9e66fc0f1\",\n    \"startDate\": \"2017-10-02 00:00 AM UTC\",\n    \"endDate\": \"2017-10-04 00:00 AM UTC\"\n}"
+											"raw": "{\n    \"bookingIdentifier\": \"3c2dcffe-98c6-420d-8d0a-a937d2b6d753\",\n    \"startDate\": \"2017-10-02\",\n    \"endDate\": \"2017-10-04\"\n}"
 										},
 										"description": ""
 									},
@@ -180,44 +180,145 @@
 			"description": "",
 			"item": [
 				{
-					"name": "Reserve Room - Constraint Error - Null EndDate",
-					"request": {
-						"url": "{{hostname}}/reservation",
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\t\"firstName\": \"Eduardo\",\n\t\"lastName\": \"Trzan API 1\",\n\t\"email\": \"eduardo@something.com\",\n\t\"startDate\": \"2017-10-10\",\n\t\"endDate\": null\n}"
+					"name": "Reservation",
+					"description": "",
+					"item": [
+						{
+							"name": "Find",
+							"description": "",
+							"item": [],
+							"_postman_isSubFolder": true
 						},
-						"description": ""
-					},
-					"response": []
-				},
-				{
-					"name": "Reserve Room - Constraint Error - Bad Email",
-					"request": {
-						"url": "{{hostname}}/reservation",
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\t\"firstName\": \"Eduardo\",\n\t\"lastName\": \"Trzan API 1\",\n\t\"email\": \"@something.com\",\n\t\"startDate\": \"2017-10-10\",\n\t\"endDate\": \"2017-10-10\"\n}"
+						{
+							"name": "Create",
+							"description": "",
+							"item": [
+								{
+									"name": "Reserve Room - Constraint Error - Null EndDate",
+									"request": {
+										"url": "{{hostname}}/reservation",
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"description": ""
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\t\"firstName\": \"Eduardo\",\n\t\"lastName\": \"Trzan API 1\",\n\t\"email\": \"eduardo@something.com\",\n\t\"startDate\": \"2017-10-10\",\n\t\"endDate\": null\n}"
+										},
+										"description": ""
+									},
+									"response": []
+								},
+								{
+									"name": "Reserve Room - Constraint Error - Bad Email",
+									"request": {
+										"url": "{{hostname}}/reservation",
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"description": ""
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\t\"firstName\": \"Eduardo\",\n\t\"lastName\": \"Trzan API 1\",\n\t\"email\": \"@something.com\",\n\t\"startDate\": \"2017-10-10\",\n\t\"endDate\": \"2017-10-10\"\n}"
+										},
+										"description": ""
+									},
+									"response": []
+								},
+								{
+									"name": "Reserve Room - Constraint Error - Missing Name 1",
+									"request": {
+										"url": "{{hostname}}/reservation",
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"description": ""
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\t\"firstName\": null,\n\t\"lastName\": null,\n\t\"email\": \"eduardo@something.com\",\n\t\"startDate\": \"2017-10-15\",\n\t\"endDate\": \"2017-10-16\"\n}"
+										},
+										"description": ""
+									},
+									"response": []
+								},
+								{
+									"name": "Reserve Room - Constraint Error - Missing Name 2",
+									"request": {
+										"url": "{{hostname}}/reservation",
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"description": ""
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\t\"firstName\": null,\n\t\"lastName\": \"Trzan\",\n\t\"email\": \"eduardo@something.com\",\n\t\"startDate\": \"2017-10-15\",\n\t\"endDate\": \"2017-10-16\"\n}"
+										},
+										"description": ""
+									},
+									"response": []
+								},
+								{
+									"name": "Reserve Room - Constraint Error - Missing Name 3",
+									"request": {
+										"url": "{{hostname}}/reservation",
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"description": ""
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\t\"firstName\": \"Eduardo\",\n\t\"lastName\": null,\n\t\"email\": \"eduardo@something.com\",\n\t\"startDate\": \"2017-10-15\",\n\t\"endDate\": \"2017-10-16\"\n}"
+										},
+										"description": ""
+									},
+									"response": []
+								}
+							],
+							"_postman_isSubFolder": true
 						},
-						"description": ""
-					},
-					"response": []
+						{
+							"name": "Delete",
+							"description": "",
+							"item": [
+								{
+									"name": "Cancel Reservation - Invalid UUID",
+									"request": {
+										"url": "{{hostname}}/reservation/392f1971",
+										"method": "DELETE",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"description": ""
+									},
+									"response": []
+								}
+							],
+							"_postman_isSubFolder": true
+						}
+					],
+					"_postman_isSubFolder": true
 				}
 			]
 		}

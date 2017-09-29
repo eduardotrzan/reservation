@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.validation.constraints.NotNull;
 import java.util.Calendar;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class BookingService implements IBookingService {
@@ -36,8 +37,12 @@ public class BookingService implements IBookingService {
 		return (List<Booking>) this.bookingDao.findAll();
 	}
 
-	@Transactional(readOnly = true)
 	public boolean isAvailable(Calendar startDate, @NotNull Calendar endDate) throws Error {
+		return this.isAvailable(startDate, endDate, null);
+	}
+
+	@Transactional(readOnly = true)
+	public boolean isAvailable(Calendar startDate, @NotNull Calendar endDate, String uuid) throws Error {
 		if (startDate == null) {
 			throw new Error(
 					ErrorCode.NULL_PARAMETER
@@ -58,7 +63,12 @@ public class BookingService implements IBookingService {
 		}
 
 		try {
-			Booking booking = this.bookingDao.findAvailability(noonStartDate, noonEndDate);
+			Booking booking;
+			if (uuid == null) {
+				booking = this.bookingDao.findAvailability(noonStartDate, noonEndDate);
+			} else {
+				booking = this.bookingDao.findAvailabilityExceptUuid(noonStartDate, noonEndDate, uuid);
+			}
 			return booking == null;
 		} catch (Exception exception) {
 			throw new UnprocessableError(
@@ -76,8 +86,6 @@ public class BookingService implements IBookingService {
 
 		Calendar noonStartDate = ConversionUtils.noon(booking.getStartDate());
 		Calendar noonEndDate = ConversionUtils.noon(booking.getEndDate());
-
-
 
 		Room campsite = this.roomDao.findByTitle("Campsite");
 		boolean isAvailable = this.isAvailable(noonStartDate, noonStartDate);
@@ -98,26 +106,67 @@ public class BookingService implements IBookingService {
 		bookingToSave.setStatus(BookingStatus.ACTIVE);
 		bookingToSave.setRoom(campsite);
 		bookingToSave.setGuest(existingGuest);
-		Booking saveBooking = this.bookingDao.save(bookingToSave);
-		return saveBooking;
+		bookingToSave = this.bookingDao.save(bookingToSave);
+		return bookingToSave;
+	}
+
+	@Transactional
+	public Booking modify(Booking booking) throws Error {
+		this.validateBooking(booking);
+
+		String uuid = booking.getUuid();
+		this.validateUuid(uuid);
+
+		Booking bookingToModify = this.bookingDao.findByUuid(uuid);
+		if (bookingToModify == null) {
+			throw new Error(
+					ErrorCode.ENTITY_NOT_FOUND
+					, "Modify Reservation Error"
+					, "Booking with Reference " + uuid + " was not found in the system."
+					, null
+			);
+		}
+
+		Calendar noonStartDate = ConversionUtils.noon(booking.getStartDate());
+		Calendar noonEndDate = ConversionUtils.noon(booking.getEndDate());
+
+		if (bookingToModify.getStartDate().equals(noonStartDate) &&
+				bookingToModify.getEndDate().equals(noonEndDate)) {
+			throw new Error(
+					ErrorCode.INVALID_PARAMETER
+					, "Modify Reservation Error"
+					, "Booking with same Start and End dates in the system."
+					, "Start Date: " + booking.getStartDate() + " | End Date: " + booking.getEndDate()
+			);
+		}
+
+		boolean isAvailable = this.isAvailable(noonStartDate, noonEndDate, uuid);
+		if (!isAvailable) {
+			throw new Error(
+					ErrorCode.INVALID_REQUIREMENT
+					, "Modify Reservation Error"
+					, "The requested modification to Start and end Dates is not available."
+					, "Start Date: " + booking.getStartDate() + " | End Date: " + booking.getEndDate()
+			);
+		}
+
+		bookingToModify.setStartDate(noonStartDate);
+		bookingToModify.setEndDate(noonEndDate);
+		bookingToModify.setUpdateDate(Calendar.getInstance());
+
+		bookingToModify = this.bookingDao.save(bookingToModify);
+		return bookingToModify;
 	}
 
 	@Transactional
 	public Booking cancel(String uuid) throws Error {
-		if (uuid == null || uuid.trim().isEmpty()) {
-			throw new Error(
-					ErrorCode.INVALID_PARAMETER
-					, "Cancellation Error"
-					, "The booking Identifier needs to be informed."
-					, null
-			);
-		}
+		this.validateUuid(uuid);
 
 		Booking booking = this.bookingDao.findByUuid(uuid);
 		if (booking == null) {
 			throw new Error(
 					ErrorCode.ENTITY_NOT_FOUND
-					, "Cancellation Error"
+					, "Cancel Reservation Error"
 					, "Booking with Reference " + uuid + " was not found in the system."
 					, null
 			);
@@ -128,6 +177,28 @@ public class BookingService implements IBookingService {
 		booking = this.bookingDao.save(booking);
 
 		return booking;
+	}
+
+	private void validateUuid(String uuid) throws  Error {
+		if (uuid == null || uuid.trim().isEmpty()) {
+			throw new Error(
+					ErrorCode.NULL_PARAMETER
+					, "Cancellation Error"
+					, "The booking Identifier needs to be informed."
+					, null
+			);
+		}
+
+		try {
+			UUID.fromString(uuid);
+		} catch (IllegalArgumentException exception) {
+			throw new Error(
+					ErrorCode.INVALID_PARAMETER
+					, "Cancellation Error"
+					, "Booking with Reference " + uuid + " is not valid."
+					, exception.getMessage()
+			);
+		}
 	}
 
 	private void validateBooking(Booking booking) throws Error {

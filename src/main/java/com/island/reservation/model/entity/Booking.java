@@ -26,6 +26,14 @@ import java.util.UUID;
 						" AND NOT(b.status = 'CANCELLED')"
 		),
 		@NamedQuery(
+				name = "Booking.findAvailabilityExceptUuid",
+				query = "SELECT b FROM Booking b " +
+						"WHERE ((?1 BETWEEN b.startDate AND b.endDate) " +
+						"OR (?2 BETWEEN b.startDate AND b.endDate)) " +
+						" AND NOT(b.status = 'CANCELLED')" +
+						" AND NOT(b.uuid = ?3)"
+		),
+		@NamedQuery(
 				name = "Booking.findByUuid",
 				query = "SELECT b FROM Booking b " +
 						"WHERE b.uuid = ?1 " +

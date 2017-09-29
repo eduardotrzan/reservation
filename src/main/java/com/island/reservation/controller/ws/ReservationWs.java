@@ -1,9 +1,6 @@
 package com.island.reservation.controller.ws;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.fasterxml.jackson.annotation.JsonRootName;
+import com.fasterxml.jackson.annotation.*;
 import com.island.reservation.ConversionUtils;
 
 import javax.validation.constraints.Future;
@@ -16,13 +13,13 @@ import java.util.Date;
 @JsonPropertyOrder({"uuid", "status", "startDate", "endDate", "createDate", "updateDate"})
 public class ReservationWs {
 
-	@NotNull(message = "First Name cannot be null")
+	@JsonProperty("bookingIdentifier")
+	private String uuid;
+
 	private String firstName;
 
-	@NotNull(message = "Last Name cannot be null")
 	private String lastName;
 
-	@NotNull(message = "Email cannot be null")
 	@Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\."
 			+"[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@"
 			+"(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?",
@@ -38,6 +35,14 @@ public class ReservationWs {
 	@Future(message = "End Date cannot be in the Past.")
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "UTC")
 	private Date endDate;
+
+	public String getUuid() {
+		return uuid;
+	}
+
+	public void setUuid(String uuid) {
+		this.uuid = uuid;
+	}
 
 	public String getFirstName() {
 		return firstName;

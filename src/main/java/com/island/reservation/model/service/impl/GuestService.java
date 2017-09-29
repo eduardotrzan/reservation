@@ -21,8 +21,8 @@ public class GuestService implements IGuestService {
 		if (guest == null) {
 			throw new Error(
 					ErrorCode.NULL_PARAMETER
-					, "Reservation Error"
-					, "Guest information is null."
+					, "Guest Information Error"
+					, "Guest is null."
 					, null
 			);
 		}
@@ -31,8 +31,8 @@ public class GuestService implements IGuestService {
 		if (errors != null) {
 			throw new Error(
 					ErrorCode.INVALID_PARAMETER
-					, "Reservation Error"
-					, "Guest parameter contains one or more invalid information."
+					, "Guest Information Error"
+					, "Guest contains one or more invalid information."
 					, errors.toString()
 			);
 		}
@@ -44,5 +44,4 @@ public class GuestService implements IGuestService {
 
 		return existingGuest;
 	}
-
 }

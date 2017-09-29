@@ -113,6 +113,30 @@ public class ReservationApiController {
 		}
 	}
 
+	@RequestMapping(value = "/reservation", method = RequestMethod.PUT, consumes = "application/json")
+	@ResponseBody
+	public ResponseEntity modify(@RequestBody ReservationWs reservationWs) {
+		try {
+			List<ErrorWs> errorWss = this.validate(reservationWs);
+			if (errorWss != null && !errorWss.isEmpty()) {
+				return ResponseEntity
+						.status(HttpStatus.BAD_REQUEST)
+						.body(errorWss);
+			}
+
+			Booking booking = new Booking();
+			booking.setUuid(reservationWs.getUuid());
+			booking.setStartDate(ConversionUtils.parseToCalendar(reservationWs.getStartDate()));
+			booking.setEndDate(ConversionUtils.parseToCalendar(reservationWs.getEndDate()));
+
+			Booking modifiedBooking = this.bookingService.modify(booking);
+			BookingWs bookingWs = this.wsBuilder.getCompleteBooking(modifiedBooking);
+			return ResponseEntity.status(HttpStatus.OK).body(bookingWs);
+		} catch (Exception exception) {
+			return this.getErrorResponse(exception);
+		}
+	}
+
 	@RequestMapping(value = "/reservation/{uuid}", method = RequestMethod.DELETE)
 	@ResponseBody
 	public ResponseEntity cancel(@PathVariable(value="uuid") String uuid) {

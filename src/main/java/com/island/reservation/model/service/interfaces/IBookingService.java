@@ -12,5 +12,6 @@ public interface IBookingService extends IService {
 	List<Booking> findAll();
 	boolean isAvailable(Calendar startDate, Calendar endDate) throws Error;
 	Booking reserve(Booking booking, Guest guest) throws Error;
+	Booking modify(Booking booking) throws Error;
 	Booking cancel(String uuid) throws Error;
 }
