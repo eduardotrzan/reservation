@@ -13,6 +13,9 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
+import javax.annotation.PostConstruct;
+import java.util.TimeZone;
+
 @Configuration
 @EnableAutoConfiguration
 @ComponentScan(basePackages = {"com.island.reservation"})
@@ -20,6 +23,11 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EnableJpaRepositories(basePackages = "com.island.reservation.model.dao")
 @EntityScan(basePackages = "com.island.reservation.model.entity")
 public class Application implements CommandLineRunner {
+
+	@PostConstruct
+	void started() {
+		TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
+	}
 
 	@Autowired
 	private BookingConfig config;

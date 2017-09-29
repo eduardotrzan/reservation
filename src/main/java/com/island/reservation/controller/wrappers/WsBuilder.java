@@ -29,14 +29,10 @@ public final class WsBuilder {
 		return completeBookingWss;
 	}
 
-	private BookingWs getCompleteBooking(Booking booking) {
+	public BookingWs getCompleteBooking(Booking booking) {
 		BookingWs bookingWs = this.bookingWsBuilder.toWs(booking);
 		bookingWs.setGuest(this.guestWsBuilder.toWs(booking.getGuest()));
 		bookingWs.setRoom(this.roomWsBuilder.toWs(booking.getRoom()));
 		return bookingWs;
-	}
-
-	public BookingWs toBookingWs(Booking booking) {
-		return this.bookingWsBuilder.toWs(booking);
 	}
 }

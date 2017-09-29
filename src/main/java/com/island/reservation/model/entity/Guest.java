@@ -1,6 +1,9 @@
 package com.island.reservation.model.entity;
 
+import org.hibernate.validator.constraints.Email;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Calendar;
 import java.util.Set;
 
@@ -49,6 +52,7 @@ public class Guest extends GenericEntity<Integer> {
 	}
 
 	@Column(name = "first_name", nullable = false, length = 200)
+	@NotNull(message = "First Name cannot be null")
 	public String getFirstName() {
 		return firstName;
 	}
@@ -58,6 +62,7 @@ public class Guest extends GenericEntity<Integer> {
 	}
 
 	@Column(name = "last_name", nullable = false, length = 200)
+	@NotNull(message = "Last Name cannot be null")
 	public String getLastName() {
 		return lastName;
 	}
@@ -67,6 +72,7 @@ public class Guest extends GenericEntity<Integer> {
 	}
 
 	@Column(name = "email", nullable = false, length = 200)
+	@Email(message="Email is has not a valid format. Expected as: abc@abc.com")
 	public String getEmail() {
 		return email;
 	}

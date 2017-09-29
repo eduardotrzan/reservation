@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 @RepositoryDefinition(domainClass = Guest.class, idClass = Integer.class)
 public interface IGuestDao extends CrudRepository<Guest, Integer> {
+
+	Guest findByEmail(String email);
 }

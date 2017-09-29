@@ -12,7 +12,7 @@ import com.island.reservation.exceptions.InternalServerError;
 import com.island.reservation.exceptions.UnprocessableError;
 import com.island.reservation.model.entity.Booking;
 import com.island.reservation.model.entity.Guest;
-import com.island.reservation.model.service.BookingService;
+import com.island.reservation.model.service.interfaces.IBookingService;
 import com.island.reservation.system.BookingConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -20,9 +20,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @RestController
 public class ReservationApiController {
@@ -31,7 +37,7 @@ public class ReservationApiController {
 	private BookingConfig config;
 
 	@Autowired
-	private BookingService bookingService;
+	private IBookingService bookingService;
 
 	@Autowired
 	private WsBuilder wsBuilder;
@@ -83,9 +89,16 @@ public class ReservationApiController {
 	@ResponseBody
 	public ResponseEntity reserve(@RequestBody ReservationWs reservationWs) {
 		try {
+			List<ErrorWs> errorWss = this.validate(reservationWs);
+			if (errorWss != null && !errorWss.isEmpty()) {
+				return ResponseEntity
+						.status(HttpStatus.BAD_REQUEST)
+						.body(errorWss);
+			}
+
 			Booking booking = new Booking();
 			booking.setStartDate(ConversionUtils.parseToCalendar(reservationWs.getStartDate()));
-			booking.setStartDate(ConversionUtils.parseToCalendar(reservationWs.getStartDate()));
+			booking.setEndDate(ConversionUtils.parseToCalendar(reservationWs.getEndDate()));
 
 			Guest guest = new Guest();
 			guest.setFirstName(reservationWs.getFirstName());
@@ -93,7 +106,7 @@ public class ReservationApiController {
 			guest.setEmail(reservationWs.getEmail());
 
 			Booking bookingReservation = this.bookingService.reserve(booking, guest);
-			BookingWs bookingWs = this.wsBuilder.toBookingWs(bookingReservation);
+			BookingWs bookingWs = this.wsBuilder.getCompleteBooking(bookingReservation);
 			return ResponseEntity.status(HttpStatus.OK).body(bookingWs);
 		} catch (Exception exception) {
 			return this.getErrorResponse(exception);
@@ -117,5 +130,26 @@ public class ReservationApiController {
 		return ResponseEntity
 				.status(httpStatus)
 				.body(errorWs);
+	}
+
+	private <T> List<ErrorWs> validate(T t) {
+		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+		Validator validator = factory.getValidator();
+		Set<ConstraintViolation<T>> violations = validator.validate(t);
+
+		if (violations == null || violations.isEmpty()) {
+			return null;
+		}
+
+		List<Error> errors = violations
+				.parallelStream()
+				.map(violation -> new Error(
+						ErrorCode.API_VALIDATION
+						, "Constraint Violation Error"
+						, violation.getMessage()
+						, null
+				))
+				.collect(Collectors.toList());
+		return this.errorWsBuilder.toWs(errors);
 	}
 }

@@ -18,3 +18,5 @@ spring:
     date-format: yyyy-MM-dd HH:mm a z
     deserialization:
       ADJUST_DATES_TO_CONTEXT_TIME_ZONE: false
+server:
+  port: 8484

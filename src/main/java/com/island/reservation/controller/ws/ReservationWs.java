@@ -1,7 +1,14 @@
 package com.island.reservation.controller.ws;
 
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonRootName;
+import com.island.reservation.ConversionUtils;
 
+import javax.validation.constraints.Future;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.util.Date;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -9,15 +16,26 @@ import java.util.Date;
 @JsonPropertyOrder({"uuid", "status", "startDate", "endDate", "createDate", "updateDate"})
 public class ReservationWs {
 
+	@NotNull(message = "First Name cannot be null")
 	private String firstName;
 
+	@NotNull(message = "Last Name cannot be null")
 	private String lastName;
 
+	@NotNull(message = "Email cannot be null")
+	@Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\."
+			+"[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@"
+			+"(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?",
+			message="Email is has not a valid format. Expected as: abc@abc.com")
 	private String email;
 
+	@NotNull(message = "Start Date cannot be null")
+	@Future(message = "Start Date cannot be in the Past.")
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "UTC")
 	private Date startDate;
 
+	@NotNull(message = "End Date cannot be null")
+	@Future(message = "End Date cannot be in the Past.")
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "UTC")
 	private Date endDate;
 
@@ -50,7 +68,7 @@ public class ReservationWs {
 	}
 
 	public void setStartDate(Date startDate) {
-		this.startDate = startDate;
+		this.startDate = ConversionUtils.noon(startDate).getTime();
 	}
 
 	public Date getEndDate() {
@@ -58,6 +76,6 @@ public class ReservationWs {
 	}
 
 	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
+		this.endDate = ConversionUtils.noon(endDate).getTime();;
 	}
 }

@@ -9,6 +9,8 @@ public enum ErrorCode {
 	UPDATE("error.update"),
 	DELETE("error.delete"),
 
+	INVALID_REQUIREMENT("error.invalid.requirement"),
+
 	INVALID_PARAMETER("error.invalid.parameter"),
 	MISMATCHING_TYPE("error.mismatching.type"),
 	NULL_PARAMETER("error.null.parameter"),

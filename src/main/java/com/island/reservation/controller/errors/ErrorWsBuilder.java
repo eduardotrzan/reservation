@@ -12,6 +12,9 @@ public class ErrorWsBuilder {
 
 	public ErrorWs toWs(@NotNull Error error) {
 		ErrorWs errorWs = new ErrorWs();
+		if (error == null) {
+			return errorWs;
+		}
 		errorWs.setErrorCode(error.getErrorCode().toString());
 		errorWs.setTitle(error.getTitle());
 		errorWs.setDescription(error.getDescription());
@@ -19,10 +22,13 @@ public class ErrorWsBuilder {
 		return errorWs;
 	}
 
-	public List<ErrorWs> toWs(List<Error> errors) {
+	public List<ErrorWs> toWs(@NotNull List<Error> errors) {
 		List<ErrorWs> errorWss = new ArrayList<>();
+		if (errors == null) {
+			return errorWss;
+		}
 		for (Error error : errors) {
-			errorWss.add(new ErrorWs());
+			errorWss.add(this.toWs(error));
 		}
 		return errorWss;
 	}

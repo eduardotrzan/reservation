@@ -6,6 +6,8 @@ import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 
 import javax.persistence.*;
+import javax.validation.constraints.Future;
+import javax.validation.constraints.NotNull;
 import java.util.Calendar;
 import java.util.UUID;
 
@@ -18,8 +20,9 @@ import java.util.UUID;
 @NamedQuery(
 		name = "Booking.findAvailability",
 		query = "SELECT b FROM Booking b " +
-					"WHERE (?1 BETWEEN b.startDate AND b.endDate) " +
-					"OR (?2 BETWEEN b.startDate AND b.endDate) "
+					"WHERE ((?1 BETWEEN b.startDate AND b.endDate) " +
+					"OR (?2 BETWEEN b.startDate AND b.endDate)) " +
+					" AND NOT(b.status = 'CANCELLED')"
 )
 public class Booking extends GenericEntity<Integer> {
 
@@ -45,6 +48,7 @@ public class Booking extends GenericEntity<Integer> {
 	private Room room;
 
 	@Column(name = "uuid", nullable = false, length = 200)
+	@NotNull(message = "UUID cannot be null")
 	public String getUuid() {
 		return uuid;
 	}
@@ -78,6 +82,8 @@ public class Booking extends GenericEntity<Integer> {
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "start_date")
+	@NotNull(message = "Start Date cannot be null")
+	@Future(message = "Start Date cannot be in the Past.")
 	public Calendar getStartDate() {
 		return startDate;
 	}
@@ -88,6 +94,8 @@ public class Booking extends GenericEntity<Integer> {
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "end_date")
+	@NotNull(message = "End Date cannot be null")
+	@Future(message = "End Date cannot be in the Past.")
 	public Calendar getEndDate() {
 		return endDate;
 	}
@@ -99,6 +107,7 @@ public class Booking extends GenericEntity<Integer> {
 	@Enumerated(EnumType.STRING)
 	@Column(name = "status", nullable = false, length = 255, columnDefinition = "DEFAULT 'PENDING'")
 	@Type( type = "pgsql_enum" )
+	@NotNull(message = "Status cannot be null")
 	public BookingStatus getStatus() {
 		return status;
 	}
@@ -109,6 +118,7 @@ public class Booking extends GenericEntity<Integer> {
 
 	@ManyToOne(targetEntity = Guest.class, fetch = FetchType.LAZY)
 	@JoinColumn(name="guest_id")
+	@NotNull(message = "Guest cannot be null")
 	public Guest getGuest() {
 		return guest;
 	}
@@ -119,6 +129,7 @@ public class Booking extends GenericEntity<Integer> {
 
 	@ManyToOne(targetEntity = Room.class, fetch = FetchType.LAZY)
 	@JoinColumn(name="room_id")
+	@NotNull(message = "Room cannot be null")
 	public Room getRoom() {
 		return room;
 	}

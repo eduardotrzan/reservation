@@ -22,4 +22,21 @@ public final class ConversionUtils {
 		}
 		return calendar.getTime();
 	}
+
+
+	public static Calendar noon(Date date) {
+		if (date == null) {
+			return null;
+		}
+		Calendar noon = Calendar.getInstance();
+		noon.setTime(date);
+		noon.set(Calendar.HOUR, 12);
+		noon.set(Calendar.MINUTE, 0);
+		noon.set(Calendar.SECOND, 0);
+		return noon;
+	}
+
+	public static Calendar noon(Calendar calendar) {
+		return calendar == null ? null : ConversionUtils.noon(calendar.getTime());
+	}
 }
