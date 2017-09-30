@@ -8,8 +8,8 @@ services:
     image: reservation
     container_name: reservation-ms
     volumes:
-      - ./src:/opt/reservation
+      - ./src/main:/opt/reservation/src/main
       - ./pom.xml:/opt/reservation/pom.xml
     ports:
-          - "8484:8484"
+          - "8585:8484"
           - "5434:5432"

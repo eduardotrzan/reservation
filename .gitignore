@@ -1,1 +1,4 @@
 /target/*
+src/pom.xml
+src/target/reservation-1.0.0-SNAPSHOT.jar
+src/target/maven-archiver/pom.properties
