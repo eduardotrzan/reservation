@@ -23,6 +23,7 @@ import java.util.UUID;
 				query = "SELECT b FROM Booking b " +
 						"WHERE ((?1 BETWEEN b.startDate AND b.endDate) " +
 						"OR (?2 BETWEEN b.startDate AND b.endDate)) " +
+						"OR (b.startDate >= ?1 AND b.endDate <= ?2) " +
 						" AND NOT(b.status = 'CANCELLED')"
 		),
 		@NamedQuery(
@@ -30,6 +31,7 @@ import java.util.UUID;
 				query = "SELECT b FROM Booking b " +
 						"WHERE ((?1 BETWEEN b.startDate AND b.endDate) " +
 						"OR (?2 BETWEEN b.startDate AND b.endDate)) " +
+						"OR (b.startDate >= ?1 AND b.endDate <= ?2) " +
 						" AND NOT(b.status = 'CANCELLED')" +
 						" AND NOT(b.uuid = ?3)"
 		),

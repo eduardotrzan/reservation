@@ -21,6 +21,14 @@ Run in terminal: `createdb -h localhost -p 5432 -U root reservation`
     
 2 - run as java application the class: Application.java
 
+##### Docker
+
+###### Run Docker compose 
+docker-compose build && docker-compose up
+
+###### Accessing Container's bash
+docker exec -ti reservation-ms /bin/bash
+
 ## Using the Application
 
 
@@ -42,5 +50,5 @@ Run in terminal: `createdb -h localhost -p 5432 -U root reservation`
 - [ ] Fix maven spring boot run
 - [ ] Unit Test Cases (TestNG)
 - [ ] Named Queries migration to DAO and create a Booking with fetch on Guest+Room to avoid N+1
-- [ ] Docker
+- [x] Docker
 - [ ] Deployment
