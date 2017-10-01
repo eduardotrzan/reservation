@@ -59,6 +59,7 @@
         <testng.version>6.11</testng.version>
         <assertj.version>3.8.0</assertj.version>
         <restassured.version>3.0.3</restassured.version>
+        <h2.version>1.4.196</h2.version>
     </properties>
 
     <dependencies>
@@ -150,6 +151,14 @@
             <version>${restassured.version}</version>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>${h2.version}</version>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
     <repositories>

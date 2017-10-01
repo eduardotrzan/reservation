@@ -1,0 +1,22 @@
+config:
+  serviceName: Booking
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/reservation
+    username: root
+    password: root
+  liquibase:
+    change-log: classpath:liquibase/db.changelog-master.xml
+    url: jdbc:postgresql://localhost:5432/reservation
+    user: root
+    password: root
+  jpa:
+    show-sql: true
+  jackson:
+    locale: en_US
+    date-format: yyyy-MM-dd HH:mm a z
+    deserialization:
+      ADJUST_DATES_TO_CONTEXT_TIME_ZONE: false
+server:
+  port: 8484
