@@ -57,7 +57,7 @@ public class BookingService implements IBookingService {
 		Calendar noonEndDate;
 		if (endDate == null) {
 			noonEndDate = ConversionUtils.noon(noonStartDate);
-			endDate.add(Calendar.MONTH, 1);
+			noonEndDate.add(Calendar.MONTH, 1);
 		} else {
 			noonEndDate = ConversionUtils.noon(endDate);
 		}

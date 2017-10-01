@@ -30,7 +30,13 @@ docker-compose build && docker-compose up
 docker exec -ti reservation-ms /bin/bash
 
 ## Using the Application
+- Download [Postman](https://www.getpostman.com/);
+- Import Postman collections from `~/Documentation/API/RES-DOC-ApiCalls.postman_collection.json`;
+- Configure your hostname for where the service is running;
+- Use the Valid and Invalid calls to use the system.
 
+## Testing the system
+- In the root folder run `mvn test` and it will run all available tests;
 
 ## Technical Tips/Points
 - Remember to add quotes on entity names, as keywords might lead to errors while running automatic queries. Ex.: User entity.
@@ -49,7 +55,9 @@ docker exec -ti reservation-ms /bin/bash
 - [x] Find all (reference only)
 - [x] Integration Test Cases (API) {Still some work and more coverage, but Postman folder contains success and failure calls}
 - [x] Fix maven spring boot run
-- [ ] Unit Test Cases (TestNG)
+- [x] Integrate Unit Test Cases - Unit Tests for Code and API
+- [ ] Increase Unit Test Coverage + More business related tests
+- [ ] Prepare H2 in memory for Integration Tests
 - [ ] Named Queries migration to DAO and create a Booking with fetch on Guest+Room to avoid N+1
 - [x] Docker
 - [ ] Deployment
