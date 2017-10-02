@@ -37,11 +37,20 @@ public class GuestService implements IGuestService {
 			);
 		}
 
-		Guest existingGuest = this.guestDao.findByEmail(guest.getEmail());
-		if (existingGuest == null) {
-			existingGuest = this.guestDao.save(guest);
-		}
+		try {
+			Guest existingGuest = this.guestDao.findByEmail(guest.getEmail());
+			if (existingGuest == null) {
+				existingGuest = this.guestDao.save(guest);
+			}
 
-		return existingGuest;
+			return existingGuest;
+		} catch (Exception e) {
+			throw new Error(
+					ErrorCode.DATABASE
+					, "Guest Information Error"
+					, "An error has happened while saving if not exist Guest in the DB."
+					, e.getMessage()
+			);
+		}
 	}
 }

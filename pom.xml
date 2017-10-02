@@ -21,7 +21,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <jvmArguments>
-                        --add-modules java.xml.bind -Dfile.encoding=UTF-8
+                        -XX:+IgnoreUnrecognizedVMOptions --add-modules java.xml.bind -Dfile.encoding=UTF-8
                     </jvmArguments>
                 </configuration>
             </plugin>
@@ -52,6 +52,7 @@
 
         <spring.version>5.0.0.RC4</spring.version>
         <liquibase.version>3.5.3</liquibase.version>
+        <jaxb-api.version>2.3.0</jaxb-api.version>
         <jackson.version>2.9.1</jackson.version>
         <postegres.version>42.1.4</postegres.version>
 
@@ -59,6 +60,7 @@
         <testng.version>6.11</testng.version>
         <assertj.version>3.8.0</assertj.version>
         <restassured.version>3.0.3</restassured.version>
+        <springboot.version>1.4.196</springboot.version>
         <h2.version>1.4.196</h2.version>
     </properties>
 
@@ -116,6 +118,12 @@
             <version>1.1.0.Final</version>
         </dependency>
 
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+            <version>${jaxb-api.version}</version>
+        </dependency>
+
         <!-- Testing -->
         <dependency>
             <groupId>org.mockito</groupId>
@@ -153,12 +161,17 @@
         </dependency>
 
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <version>${h2.version}</version>
             <scope>test</scope>
         </dependency>
-
     </dependencies>
 
     <repositories>

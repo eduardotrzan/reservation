@@ -72,7 +72,10 @@ public class Guest extends GenericEntity<Integer> {
 	}
 
 	@Column(name = "email", nullable = false, length = 200)
-	@Email(message="Email is has not a valid format. Expected as: abc@abc.com")
+	@NotNull(message = "Email cannot be null")
+	@Email(message="Email is has not a valid format. Expected as: abc@abc.com", regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\."
+			+"[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@"
+			+"(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")
 	public String getEmail() {
 		return email;
 	}
