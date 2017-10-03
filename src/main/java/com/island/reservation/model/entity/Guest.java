@@ -8,7 +8,7 @@ import java.util.Calendar;
 import java.util.Set;
 
 @Entity
-@Table(name = "\"guest\"")
+@Table(name = "guest", catalog = "reservation", schema = "public")
 public class Guest extends GenericEntity<Integer> {
 
 	private String firstName;

@@ -10,7 +10,7 @@ import java.util.Calendar;
 import java.util.Set;
 
 @Entity
-@Table(name = "\"room\"")
+@Table(name = "room", catalog = "reservation", schema = "public")
 @TypeDef(
 		name = "pgsql_enum",
 		typeClass = PostgreSQLEnumType.class

@@ -12,7 +12,7 @@ import java.util.Calendar;
 import java.util.UUID;
 
 @Entity
-@Table(name = "\"booking\"")
+@Table(name = "booking", catalog = "reservation", schema = "public")
 @TypeDef(
 		name = "pgsql_enum",
 		typeClass = PostgreSQLEnumType.class
