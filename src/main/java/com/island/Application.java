@@ -19,6 +19,7 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import java.util.Calendar;
@@ -60,6 +61,7 @@ public class Application implements CommandLineRunner {
 	}
 
 	@Override
+	@Transactional
 	public void run(String... strings) {
 		LOGGER.info("Running " + this.config.getServiceName() + " system....");
 		Room room = roomDao.findByTitle("Campsite");
@@ -76,8 +78,11 @@ public class Application implements CommandLineRunner {
 		booking.setRoom(room);
 		booking.setStatus(BookingStatus.CONFIRMED);
 
-		booking.setStartDate(Calendar.getInstance());
+		Calendar startDate = Calendar.getInstance();
+		startDate.add(Calendar.MONTH, 1);
+		booking.setStartDate(startDate);
 		Calendar endDate = Calendar.getInstance();
+		endDate.add(Calendar.MONTH, 1);
 		endDate.add(Calendar.DAY_OF_MONTH, 3);
 		booking.setEndDate(endDate);
 		booking = bookingDao.save(booking);

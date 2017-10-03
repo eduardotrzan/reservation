@@ -7,7 +7,7 @@ CREATE SEQUENCE reservation.public.guest_id_seq
 
 
 CREATE TABLE reservation.public.guest (
-  id                 INTEGER DEFAULT nextval(reservation.public.guest_id_seq) NOT NULL,
+  id                 INTEGER DEFAULT nextval('guest_id_seq') NOT NULL,
   create_date        TIMESTAMP WITH TIME ZONE                                    NOT NULL DEFAULT CURRENT_TIMESTAMP,
   update_date        TIMESTAMP WITH TIME ZONE                                    NULL,
   first_name         VARCHAR(200)                                                NOT NULL,
@@ -49,7 +49,7 @@ CREATE TYPE ROOM_STATUS AS ENUM ('UNAVAILABLE', 'AVAILABLE');
 
 
 CREATE TABLE reservation.public.room (
-  id                 INTEGER DEFAULT nextval(reservation.public.room_id_seq) NOT NULL,
+  id                 INTEGER DEFAULT nextval('room_id_seq') NOT NULL,
   create_date        TIMESTAMP WITH TIME ZONE                                    NOT NULL DEFAULT CURRENT_TIMESTAMP,
   update_date        TIMESTAMP WITH TIME ZONE                                    NULL,
   title              VARCHAR(200)                                                NOT NULL,
@@ -83,7 +83,7 @@ CREATE TYPE BOOKING_STATUS AS ENUM ('PENDING', 'ACTIVE', 'CONFIRMED', 'CANCELLED
 
 
 CREATE TABLE reservation.public.booking (
-  id                 INTEGER DEFAULT nextval(reservation.public.booking_id_seq)                      NOT NULL,
+  id                 INTEGER DEFAULT nextval('booking_id_seq')                      NOT NULL,
   uuid               VARCHAR(200)                                                NOT NULL,
   create_date        TIMESTAMP WITH TIME ZONE                                    NOT NULL DEFAULT CURRENT_TIMESTAMP,
   update_date        TIMESTAMP WITH TIME ZONE                                    NULL,
