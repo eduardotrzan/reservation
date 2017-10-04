@@ -3,26 +3,45 @@ config:
 
 spring:
   datasource:
-    url: jdbc:h2:mem:reservation;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;MODE=PostgreSQL;INIT=CREATE SCHEMA reservation;
+    url: jdbc:h2:~/reservation/public;FILE_LOCK=NO;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;DATABASE_TO_UPPER=false;MODE=PostgreSQL;INIT=CREATE SCHEMA IF NOT EXISTS reservation;SCHEMA=reservation");
     username: sa
-    password:
+    password: 123
     driver-class-name: org.h2.Driver
     platform: h2
   jpa:
       database-platform: org.hibernate.dialect.PostgreSQL82Dialect
+      #org.hibernate.dialect.PostgreSQL82Dialect
       show-sql: true
       database: H2
+      generate-ddl: true
+      hibernate:
+        ddl-auto: create
+      properties:
+        hibernate:
+          show_sql: true
+          use_sql_comments: true
+          format_sql: true
+          default_catalog: reservation
+          default_schema: public
+  h2:
+    console:
+      enabled: true
+      path: /console
+      settings:
+        trace: false
+        web-allow-others: false
   liquibase:
-    change-log: classpath:liquibase/db.changelog-master.xml
-    url: jdbc:h2:mem:reservation;DB_CLOSE_DELAY=-1;MODE=PostgreSQL;INIT=CREATE SCHEMA reservation;
-    user: sa
-    password:
-    enabled: true
-    default-schema: public
-  jackson:
-    locale: en_US
-    date-format: yyyy-MM-dd HH:mm a z
-    deserialization:
-      ADJUST_DATES_TO_CONTEXT_TIME_ZONE: false
+    enabled: false
+#    change-log: classpath:liquibase/db.changelog-master.xml
+#    url: jdbc:h2:~/reservation/public;FILE_LOCK=NO;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;MODE=PostgreSQL;INIT=RUNSCRIPT FROM 'classpath:create.sql';
+#    user: sa
+#    password:
+#    enabled: true
+#    default-schema: public
+#  jackson:
+#    locale: en_US
+#    date-format: yyyy-MM-dd HH:mm a z
+#    deserialization:
+#      ADJUST_DATES_TO_CONTEXT_TIME_ZONE: false
 server:
   port: 8484
