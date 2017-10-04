@@ -35,7 +35,7 @@ public class Application implements CommandLineRunner {
 	private static final Logger LOGGER = LoggerFactory.getLogger(Application.class);
 
 	public static void main(String[] args) {
-		SpringApplication.run(Application.class);
+		SpringApplication.run(Application.class, args);
 	}
 
 	@Override

@@ -1,0 +1,32 @@
+config:
+  serviceName: Booking-IntegrationTests
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5435/reservation
+    username: sa
+    password: 123
+  liquibase:
+    enabled: true
+    change-log: classpath:liquibase/db.changelog-master.xml
+    url: jdbc:postgresql://localhost:5432/reservation
+    user: sa
+    password: 123
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQL82Dialect
+    show-sql: true
+    database: postgresql
+    properties:
+      hibernate:
+        show_sql: true
+        use_sql_comments: true
+        format_sql: true
+        default_catalog: reservation
+        default_schema: public
+  jackson:
+    locale: en_US
+    date-format: yyyy-MM-dd HH:mm a z
+    deserialization:
+      ADJUST_DATES_TO_CONTEXT_TIME_ZONE: false
+server:
+  port: 8585
