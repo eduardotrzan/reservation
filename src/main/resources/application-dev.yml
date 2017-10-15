@@ -3,12 +3,12 @@ config:
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/reservation
+    url: jdbc:postgresql://localhost:5435/reservation
     username: root
     password: root
   liquibase:
     change-log: classpath:liquibase/db.changelog-master.xml
-    url: jdbc:postgresql://localhost:5432/reservation
+    url: jdbc:postgresql://localhost:5435/reservation
     user: root
     password: root
   jpa:

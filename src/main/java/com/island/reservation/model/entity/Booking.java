@@ -17,31 +17,6 @@ import java.util.UUID;
 		name = "pgsql_enum",
 		typeClass = PostgreSQLEnumType.class
 )
-@NamedQueries({
-		@NamedQuery(
-				name = "Booking.findAvailability",
-				query = "SELECT b FROM Booking b " +
-						"WHERE ((?1 BETWEEN b.startDate AND b.endDate) " +
-						"OR (?2 BETWEEN b.startDate AND b.endDate)) " +
-						"OR (b.startDate >= ?1 AND b.endDate <= ?2) " +
-						" AND NOT(b.status = 'CANCELLED')"
-		),
-		@NamedQuery(
-				name = "Booking.findAvailabilityExceptUuid",
-				query = "SELECT b FROM Booking b " +
-						"WHERE ((?1 BETWEEN b.startDate AND b.endDate) " +
-						"OR (?2 BETWEEN b.startDate AND b.endDate)) " +
-						"OR (b.startDate >= ?1 AND b.endDate <= ?2) " +
-						" AND NOT(b.status = 'CANCELLED')" +
-						" AND NOT(b.uuid = ?3)"
-		),
-		@NamedQuery(
-				name = "Booking.findByUuid",
-				query = "SELECT b FROM Booking b " +
-						"WHERE b.uuid = ?1 " +
-						" AND NOT(b.status = 'CANCELLED')"
-		)
-})
 public class Booking extends GenericEntity<Integer> {
 
 	@Override

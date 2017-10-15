@@ -61,3 +61,53 @@ docker exec -ti reservation-ms /bin/bash
 - [ ] Named Queries migration to DAO and create a Booking with fetch on Guest+Room to avoid N+1
 - [x] Docker
 - [ ] Deployment
+
+
+### Performance
+#### Database
+The main point of issues on an environment with thousands of request for reservation falls on booking and more specific,
+UUID, START DATE and END DATE.
+
+Some solutions:
+1. UNIQUE index on UUID for insertion
+	* This will allow the DB to handle new Booking rows without having to scan table for duplicated;
+2. INDEX on UUID
+	* This will speed the FIND BY a Booking UUID;
+3. INDEX on START DATE and END DATE
+	* This will speed the FIND availability without UUID; 
+4. INDEX on UUID, START DATE, END DATE
+	* This will speed the FIND availability with UUID;
+5. CONSTRAINT for date range on START DATE and END DATE
+	* This will allow the DB to handle new Booking rows without having to scan table for duplicated;
+
+Other ways to improve performance on DB could be:
+* Replication
+	* This would mean a full duplication of the DB in a master-slave format.
+	* Downside, master gets overloaded with lots of writes, therefore slows down replicas.
+* Clustering a table on index `CLUSTER booking USING booking_idx01;`
+	* The good side is that this will improve the speed of readings in a table were data doesn't change too often. The
+	reason is related to the fact cluster organizes data ordered by index, therefore allow B-Tree search;
+	* On the other hand, cluster takes a toll on highly insertable tables, as decreases "wiggle room" for HOT (Heap-only tuples).
+	It is possible also to happen Last Page Insert Latch Contention, which is a single place at the end of B-Tree, where multiple 
+	queries compete against each other
+* Partition: 
+	* which would be a type of vertical partition. On this we split columns of a given table into 2 or more, depending on the need.
+	This allows for example search from UUID not be impacted by the availability.
+	* The not so good, the data will grow independently, but for 2 different tables. Queries adds more cost on joins.
+* Sharding:
+	* which consists in horizontal partition. We splint the rows of a given table in multiple nodes. This allows specific,
+	information per region/node.
+	* Problems from vertical partition might happen. Different region/node creates complexity on joins and aggregations.
+	
+#### Memcached / Redis
+In-memory caching could improve search for availability, avoiding hitting the DB too many times.
+They could scale the in the same way as the points above for the DB.
+
+It's important to avoid state during horizontal scaling of machine depending on then. The best way is to have In-memory detached
+from the running application, eg, different docker containers of EC2 machines. The biggest concern is to avoid stateful situations
+were data changes in one environment and it's outdated for another. 
+
+#### Kafka
+
+
+

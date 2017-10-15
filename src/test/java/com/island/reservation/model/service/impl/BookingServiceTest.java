@@ -4,7 +4,6 @@ import com.island.reservation.exceptions.Error;
 import com.island.reservation.exceptions.UnprocessableError;
 import com.island.reservation.model.dao.IBookingDao;
 import com.island.reservation.model.dao.IRoomDao;
-import com.island.reservation.model.entity.Booking;
 import com.island.reservation.model.service.interfaces.IGuestService;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -67,7 +66,7 @@ public class BookingServiceTest {
 	@Test
 	public void isAvailable_startDateNullEndDate_hasBooking() {
 		when(this.bookingDao.findAvailability(any(Calendar.class), any(Calendar.class)))
-				.thenReturn(new Booking());
+				.thenReturn(false);
 		try {
 			assertThat(this.bookingService.isAvailable(Calendar.getInstance(), null)).isFalse();
 			assertThat(this.bookingService.isAvailable(Calendar.getInstance(), Calendar.getInstance())).isFalse();
@@ -79,7 +78,7 @@ public class BookingServiceTest {
 	@Test
 	public void isAvailable_startDateNullEndDate_hasnotBooking() {
 		when(this.bookingDao.findAvailability(any(Calendar.class), any(Calendar.class)))
-				.thenReturn(null);
+				.thenReturn(true);
 		try {
 			assertThat(this.bookingService.isAvailable(Calendar.getInstance(), null)).isTrue();
 			assertThat(this.bookingService.isAvailable(Calendar.getInstance(), Calendar.getInstance())).isTrue();
@@ -116,7 +115,7 @@ public class BookingServiceTest {
 	@Test
 	public void isAvailable_notNulllUuiStartDateNullEndDate_hasBooking() {
 		when(this.bookingDao.findAvailabilityExceptUuid(any(Calendar.class), any(Calendar.class), anyString()))
-				.thenReturn(new Booking());
+				.thenReturn(false);
 		try {
 			assertThat(this.bookingService.isAvailable(Calendar.getInstance(), null, UUID.randomUUID().toString()))
 					.isFalse();
@@ -130,7 +129,7 @@ public class BookingServiceTest {
 	@Test
 	public void isAvailable_notNulllUuiStartDateNullEndDate_hasnotBooking() {
 		when(this.bookingDao.findAvailabilityExceptUuid(any(Calendar.class), any(Calendar.class), anyString()))
-				.thenReturn(null);
+				.thenReturn(true);
 		try {
 			assertThat(this.bookingService.isAvailable(Calendar.getInstance(), null, UUID.randomUUID().toString()))
 					.isTrue();
