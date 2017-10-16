@@ -2,16 +2,14 @@ package com.island.reservation.model.dao;
 
 import com.island.reservation.model.entity.Booking;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.RepositoryDefinition;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.repository.NoRepositoryBean;
 
 import java.util.Calendar;
 
-@Repository
-@RepositoryDefinition(domainClass = Booking.class, idClass = Integer.class)
+@NoRepositoryBean
 public interface IBookingDao extends CrudRepository<Booking, Integer> {
 
-	Booking findAvailability(Calendar startDate, Calendar endDate);
-	Booking findAvailabilityExceptUuid(Calendar startDate, Calendar endDate, String uuid);
+	boolean findAvailability(Calendar startDate, Calendar endDate);
+	boolean findAvailabilityExceptUuid(Calendar startDate, Calendar endDate, String uuid);
 	Booking findByUuid(String uuid);
 }

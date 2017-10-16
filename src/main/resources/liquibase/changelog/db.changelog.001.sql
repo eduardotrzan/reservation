@@ -95,7 +95,8 @@ CREATE TABLE "reservation"."public"."booking" (
   "delete_date"        TIMESTAMP WITH TIME ZONE                                    NULL,
   "is_deleted"         BOOLEAN                                                     NOT NULL DEFAULT FALSE,
 
-  PRIMARY KEY ("id")
+  PRIMARY KEY ("id"),
+  CONSTRAINT booking_cst01 EXCLUDE USING gist (tstzrange(start_date, end_date) WITH &&)
 );
 END;
 
@@ -111,10 +112,14 @@ CREATE INDEX "booking_room_id_idx"
   ON "reservation"."public"."booking" ("room_id");
 END;
 
-CREATE INDEX "booking_idx01"
-  ON "reservation"."public"."booking" ("start_date", "end_date");
-END;
-
-CREATE UNIQUE INDEX "booking_idx02"
+CREATE UNIQUE INDEX "booking_idx01"
   ON "reservation"."public"."booking" ("uuid")
 ;
+
+CREATE INDEX "booking_idx02"
+  ON "reservation"."public"."booking" USING BTREE ("start_date", "end_date");
+END;
+
+CREATE INDEX "booking_idx03"
+  ON "reservation"."public"."booking" USING BTREE ("uuid", "start_date", "end_date");
+END;

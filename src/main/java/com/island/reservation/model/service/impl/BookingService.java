@@ -63,13 +63,13 @@ public class BookingService implements IBookingService {
 		}
 
 		try {
-			Booking booking;
+			boolean isAvailable;
 			if (uuid == null) {
-				booking = this.bookingDao.findAvailability(noonStartDate, noonEndDate);
+				isAvailable = this.bookingDao.findAvailability(noonStartDate, noonEndDate);
 			} else {
-				booking = this.bookingDao.findAvailabilityExceptUuid(noonStartDate, noonEndDate, uuid);
+				isAvailable = this.bookingDao.findAvailabilityExceptUuid(noonStartDate, noonEndDate, uuid);
 			}
-			return booking == null;
+			return isAvailable;
 		} catch (Exception exception) {
 			throw new UnprocessableError(
 					ErrorCode.DATABASE
@@ -88,16 +88,6 @@ public class BookingService implements IBookingService {
 		Calendar noonEndDate = ConversionUtils.noon(booking.getEndDate());
 
 		Room campsite = this.roomDao.findByTitle("Campsite");
-		boolean isAvailable = this.isAvailable(noonStartDate, noonStartDate);
-		if (!isAvailable) {
-			throw new Error(
-					ErrorCode.INVALID_REQUIREMENT
-					, "Reservation Error"
-					, "The " + campsite.getTitle() + " is not available."
-					, null
-			);
-		}
-
 		Guest existingGuest = this.guestService.saveIfNotExists(guest);
 
 		Booking bookingToSave = new Booking();
@@ -136,16 +126,6 @@ public class BookingService implements IBookingService {
 					ErrorCode.INVALID_PARAMETER
 					, "Modify Reservation Error"
 					, "Booking with same Start and End dates in the system."
-					, "Start Date: " + booking.getStartDate() + " | End Date: " + booking.getEndDate()
-			);
-		}
-
-		boolean isAvailable = this.isAvailable(noonStartDate, noonEndDate, uuid);
-		if (!isAvailable) {
-			throw new Error(
-					ErrorCode.INVALID_REQUIREMENT
-					, "Modify Reservation Error"
-					, "The requested modification to Start and end Dates is not available."
 					, "Start Date: " + booking.getStartDate() + " | End Date: " + booking.getEndDate()
 			);
 		}
