@@ -69,9 +69,9 @@ layer is, at a degree, independent of the lower layer, yet it split concerns for
 
 | Layer | Description |
 |:---:| ------------- |
-| Controller | This is a logical grouping of intermediate classes, responsible to handling View requests of actions. |
+| **Controller** | *This is a logical grouping of intermediate classes, responsible to handling View requests of actions.* |
 | API | It is responsible for handling all Request/Response. It understands how to dispatch actions to the service and convert returns back to callers. |
-| Model | This is a logical grouping of core application logic where it handles business logic, data access, security, etc. |
+| **Model** | *This is a logical grouping of core application logic where it handles business logic, data access, security, etc.* |
 | Service | It is responsible for handling all business. The Business Logic Layer (BLL) contains pure specific rules that matters for the application. |
 | DAO | It is responsible for handling all data access. The Data Access Layer (DAL) contains the logic on how to handle data access, this means relational DBs, FileSystem, NoSql, etc. Queries would be created according to the environment used. |
 | Entity | This contains all core entities mapping a domain model of the business. The structured data mapping would be located as annotations for those entities, allowing to translate the attributes for each context of the datasets. |
