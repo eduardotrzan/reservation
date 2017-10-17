@@ -14,7 +14,7 @@ Run in terminal: `createdb -h localhost -p 5432 -U root reservation`
 
 #### Pre-requirement: 
 - Have Java 9 installed;
-- Make sure to add `--add-modules java.xml.bind` as VM Options, otherwise you'll have `JAXBException`.
+- Make sure to add `--add-modules java.xml.bind` as VM Options, otherwise you'll have `JAXBException` (This step is only needed if `jaxb-api` is removed from pom.xml).
 
 #### Run Options
 1 - mvn spring-boot:run
@@ -57,8 +57,8 @@ docker exec -ti reservation-ms /bin/bash
 - [x] Fix maven spring boot run
 - [x] Integrate Unit Test Cases - Unit Tests for Code and API
 - [ ] Increase Unit Test Coverage + More business related tests
-- [ ] Prepare H2 in memory for Integration Tests
-- [ ] Named Queries migration to DAO and create a Booking with fetch on Guest+Room to avoid N+1
+- [ ] Prepare H2 or TestContainers for Integration Tests
+- [x] Named Queries migration to DAO and create a Booking with fetch on Guest+Room to avoid N+1
 - [x] Docker
 - [ ] Deployment
 
