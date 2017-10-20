@@ -69,7 +69,7 @@ layer is, at a degree, independent of the lower layer, yet it split concerns for
 
 | Layer | Description |
 |:---:| ------------- |
-| **Controller** | *This is a logical grouping of intermediate classes, responsible to handling View requests of actions.* |
+| **Controller** | *This is a logical grouping of intermediate classes, responsible for handling View requests of actions.* |
 | API | It is responsible for handling all Request/Response. It understands how to dispatch actions to the service and convert returns back to callers. |
 | **Model** | *This is a logical grouping of core application logic where it handles business logic, data access, security, etc.* |
 | Service | It is responsible for handling all business. The Business Logic Layer (BLL) contains pure specific rules that matters for the application. |
@@ -123,22 +123,22 @@ rely in different aggregations could be improved by having it's data stored in a
 Materialized views can be indexed and refreshed. This approach goes well with Command Query Responsibility Segregation (CQRS), where
 different actions (Create, Update, Delete) goes in a different flow from the Read.
 
-On the hand, a high demanding insert scenario would for the materialized view to be refreshed with frequency which would increase the load
+On the hand, a high demanding insert scenario would force the materialized view to be refreshed with frequency which would increase the load
 of the DB for each time it is refreshed. Also in a sharded environment, the materialized view wouldn't cover all data.
 
 
 #### Memcached / Redis
 In-memory caching could improve search for availability, avoiding hitting the DB too many times.
-They could scale the in the same way as the points above for the DB.
+They could scale in the same way as the points above for the DB.
 
 It's important to avoid state during horizontal scaling of machine depending on then. The best way is to have In-memory detached
-from the running application, eg, different docker containers of EC2 machines. The biggest concern is to avoid stateful situations
-were data changes in one environment and it's outdated for another. 
+from the running application, eg, different docker containers or EC2 machines. The biggest concern is to avoid stateful situations
+were data changes in one environment and it's outdated in another. 
 
 
 #### Kafka / RabbitMQ
 Another option for scaling would be to split the domain of the application creating 2 or more micro-service (MS). Supposing that user and/or
-team management becomes a detached micro-service (MS) from the reservation and the reserve functionality can create an user while reserving, then:
+team management becomes a detached micro-service (MS) from the reservation and the reserve functionality can create a user while reserving, then:
 
 It would be possible to create an async logic were a temporary reservation is created in a pending state, while a message is published in a 
 messaging bus. The MS responsible for registering the user would process the request and acknowledge the reservation to properly 
@@ -152,11 +152,10 @@ Another scenario would be the fact the second MS was able to receive and not pro
 retry job would make sense, some other an async acknowledge would be required to inform the first MS, which would be responsible to apply a
 failure flow.
 
-An important pattern would for avoiding inconsistencies would be Event Sourcing, which consists on storing the sequence of the change events as 
-it arrived in the system. It is usually applied with CQRS, where create, update and deletes are tracked.
+An important pattern for avoiding inconsistencies would be Event Sourcing, which consists on storing the sequence of the change events as it arrived in the system. It is usually applied with CQRS, where create, update and deletes are tracked.
 
-Even though the careful validation flows a data inconsistency could happen. Supposing a scenario were we have an overbooking, it would mean
-that both request for the same period (or overlapping periods) were successfully processed. In those cases, the solution would be more reactive,
+Even though the careful validation flows, a data inconsistency could happen. Supposing a scenario were we have an overbooking, it would mean
+that both requests for the same period (or overlapping periods) were successfully processed. In those cases, the solution would be more reactive,
 than protective, which would mean that good monitoring tools (or data consistency checks) would identify similar scenarios and apply an automatic
 or expect manual resolution for the conflicts.
 
@@ -172,19 +171,19 @@ is elected to become the next leader. Once the original Leader is back online, K
 
 #### Other Micro-Services Challenges
 Micro-service is not only a self standing block of code, but a business boundary. It's often associated to Domain Driven Design, where the effort
-is properly identify the the domain of a problem you want to solve, defining clear constraints and concepts. As business grow, different visions are
-incorporated to the original plan, which with time question the domain design, culminating in a re-design of the solution where boundaries might not
+is to properly identify the the domain of a problem you want to solve, defining clear constraints and concepts. As business grow, different visions are
+incorporated to the original plan, which, with time, question the domain design, culminating in a re-design of the solution where boundaries might not
 be clear enough.
 
-Reporting could become a complex Frankenstein where different pieces will be assembled from different scenarios. SQL Aggregations won't be available
-and logic might need to be duplicated in order to interpret the data in the needed context.
+Reporting could become a complex Frankenstein where different pieces will be assembled from different scenarios. SQL Aggregations won't be available and logic might need to be duplicated in order to interpret the data in the needed context. Some options would be to extract meaningful data from different databases and convert to a single one where a report would run for that particular set.
 
 Monitoring is not only about DB, but the behavior and production of each MS. While issues for concurrency can be challenging, producing errors
-from on MS as events are created can be complicated to debug and screening distributed logs. 
+from on MS as events are created can be complicated to debug and screening distributed logs. Which enphasis proper tracing of a request through MSs.
 
 Cyclic dependencies between services impose barriers while deploying MSs where changes in one could deeply affect others. This could mean a crash
-on the system availability or a cascade change on all dependencies. Common libs without retro-compatibility is another case where changes could 
-affect MSs in a chain. 
+on the system availability or a cascade change on all dependencies. Common libs without retro-compatibility is another case where changes could affect MSs in a chain.  Therefre the importance of proper versioning and clear business flow.
+
+Componentization is also a challenge as MSs start to sharing similar code flavors. An example would be security authorization service, where MSs need to validate that the incoming request is authorized to a giving resource. A generalization of this component will bring complexity to the ecosystem as multiple MSs will depend on the release cycle of other components.
 
 
 
